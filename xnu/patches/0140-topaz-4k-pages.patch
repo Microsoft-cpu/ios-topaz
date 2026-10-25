@@ -242,13 +242,13 @@ index 023086f..0ab2cad 100644
  #if defined(SWEET)
  	/* Stage 0: white 64x32 band, no stack or page tables needed. */
 +#if defined(TOPAZ_4K)
-+	MOV64	x0, (0x5c000000 + 2368 * 4320)	/* topaz splash framebuffer */
++	MOV64	x0, (0x85200000 + 1568 * 2880)	/* topaz splash framebuffer */
 +#else
- 	MOV64	x0, (0x9c000000 + 2368 * 4320)
+ 	MOV64	x0, (0x85200000 + 1568 * 2880)
 +#endif
  	mov		w1, #-1
  	mov		x2, #32
- 	mov		x4, #4320
+ 	mov		x4, #2880
 @@ -678,7 +682,7 @@ Lkernelcache_base_found:
  	lsr		x5,  x24, #(ARM_TT_L2_SHIFT)
  	create_bootstrap_mapping x14, x15, x5, x3, x2, x9, x10, x11, x12, x13
