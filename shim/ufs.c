@@ -242,7 +242,7 @@ void test_ufs(void)
 	rc = scsi(0, cap10, sizeof(cap10), data, 8, &ocs, &st);
 	con_hex2("UFS CAP", "rc=", rc, "ocs/st=", ocs << 8 | st);
 	if (!rc)
-		con_hex2("UFS LUN0", "lastlba=", be32(data), "blk=", be32(data + 4));
+		con_hex2("UFS LUN4", "lastlba=", be32(data), "blk=", be32(data + 4));
 
 	/* READ(10) LBA 0, 2 blocks: protective MBR and the GPT header. */
 	static const uint8_t rd10[10] = { 0x28, 0, 0, 0, 0, 0, 0, 0, 2, 0 };

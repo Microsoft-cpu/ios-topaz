@@ -17,7 +17,7 @@
 #define PSHOLD			0x0440b000UL
 
 #define GICD_BASE		0x0f200000UL
-#define GICR_BASE		0x0f300000UL
+#define GICR_BASE		0x0f240000UL
 #define GICR_SIZE		0x100000UL
 #define GICR_PE_SIZE		0x20000UL
 #define GICR_TYPER		0x08
@@ -45,7 +45,7 @@
 #define PSCI_SYSTEM_RESET2	0xc4000012UL
 #define SMCCC_VERSION		0x80000000UL
 
-#define NR_CPUS			8
+#define NR_CPUS			6
 
 #define rsr(r) ({ uint64_t _v; __asm__ volatile("mrs %0, " r : "=r"(_v)); _v; })
 #define wsr(r, v) __asm__ volatile("msr " r ", %0" : : "r"((uint64_t)(v)))
@@ -59,8 +59,8 @@ static inline void wr8(uintptr_t a, uint8_t v) { *(volatile uint8_t *)a = v; }
 extern char secondary_entry[];
 
 static const char *stage;	/* set at runtime: no absolute pointers in data */
-/* topaz: CPU0-3 (A53) at MPIDR 0x0-0x3, CPU4-7 (A73) at 0x100-0x103 */
-static inline uint64_t cpu_mpidr(int i) { return (uint64_t)(i >> 2) << 8 | (i & 3); }
+/* g34 (SM6375): CPU0-5 (A55) at MPIDR 0x000-0x500, CPU6-7 (A78) at 0x600-0x700 */
+static inline uint64_t cpu_mpidr(int i) { return (uint64_t)i << 8; }
 
 static volatile uint64_t sec_mpidr[NR_CPUS];
 static volatile uint64_t sec_probe[4];	/* CPU1 redistributor write test */

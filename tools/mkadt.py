@@ -16,8 +16,8 @@ MEM_SIZE = 0x4d000000
 # node is <0x40000000 0x3bb00000>, <0x80000000 3G>, <0x1_40000000 4G>; every
 # fixed reserved-memory carve-out is below 0x63900000 and the dynamic pools are
 # limited below 4G.
-HIGH_PHYS_BASE = 0x140000000
-HIGH_MEM_SIZE = 0x100000000
+HIGH_PHYS_BASE = 0x100000000
+HIGH_MEM_SIZE = 0xf8400000
 # --midmem (phone only): the middle and upper banks as one range, 0x80000000 +
 # 3G + 4G = 7G up to 0x2_40000000. No fixed carve-out is above 0x63900000, and it
 # gives the kernel RAM below 4 GiB, which the GPU needs (it does not reach above).
@@ -28,11 +28,11 @@ SOC_BASE = 0x01000000
 
 # interrupt-controller@f200000 (redistributor-stride 0x20000, 8 cores)
 GICD, GICD_SIZE = 0x0f200000, 0x10000
-GICR, GICR_SIZE = 0x0f300000, 0x100000
+GICR, GICR_SIZE = 0x0f240000, 0x100000
 # cont_splash_region left lit by ABL
-FB, FB_SIZE = 0x5c000000, 0xf00000
+FB, FB_SIZE = 0x85200000, 0xc00000
 SWEET_ECID = 0x544f50415a000001  # 'TOPAZ' + 1, synthetic
-FB_W, FB_H, FB_STRIDE = 1080, 2400, 1080 * 4
+FB_W, FB_H, FB_STRIDE = 720, 1600, 720 * 4
 # Internal UFS host (ufshc@4804000 "ufs_mem"); QEMU virt has none
 UFS, UFS_SIZE = 0x04804000, 0x3000
 TIMEBASE = 19200000
@@ -128,18 +128,17 @@ def build(seed=None, qemu=False, highmem=False, native=False, midmem=False):
         # with CSR_ALLOW_UNRESTRICTED_FS (vm_unix.c shared region checks).
         node('asmb', [ph(), ('lp-sip0', u64(0x6f)), ('lp-sip1', u32(1))])])
 
-    # TOPAZ SMP: only the four Cortex-A73 (gold) cores, MPIDR 0x100-0x103:
-    # the Kryo 260 Silver cores have no 16K granule, so the shim boots xnu
-    # on gold CPU 0x100 and parks the silver cluster. One cluster. The kernel defaults to one
-    # and uses cpus=N to select an initial prefix (N <= 8).
+    # G34 (SM6375): the six Cortex-A55 cores at MPIDR 0x000-0x500 (Aff1 = core number).
+    # The two Cortex-A78 cores (0x600, 0x700) are left unused, as on sweet.
+    # The kernel defaults to one CPU and uses cpus=N to select an initial prefix (N <= 6).
     # QEMU retains its original single-CPU tree: its MPIDRs differ from sweet.
     cpu_nodes = []
-    for core in range(1 if qemu else 4):
+    for core in range(1 if qemu else 6):
         cpu_nodes.append(node(f'cpu{core}', [
             ph(),
             ('device_type', cstr('cpu')),
             ('compatible', cstr('qcom,kryo260') + cstr('qcom,kryo470') + cstr('ARM,v8')),
-            ('reg', u32(core if qemu else 0x100 | core)),  # actual MPIDR Aff1:Aff0, NOT logical ID
+            ('reg', u32(core if qemu else core << 8)),  # actual MPIDR Aff1:Aff0, NOT logical ID
             ('cpu-id', u32(core)),   # descriptive: XNU assigns IDs by DT order
             ('cluster-id', u32(0)),  # descriptive; see ml_parse_cpu_topology
             ('cluster-type', u32(0)),  # homogeneous CLUSTER_TYPE_SMP, not AMP
@@ -149,7 +148,7 @@ def build(seed=None, qemu=False, highmem=False, native=False, midmem=False):
             ('l3-cache-id', u32(0)),
             ('state', cstr('running' if core == 0 else 'stopped')),
             ('timebase-frequency', u32(timebase)),
-            ('clock-frequency', u32(2803200000)),
+            ('clock-frequency', u32(1800000000)),
             ('bus-frequency', u32(100000000)),
             ('memory-frequency', u32(1866000000)),
             ('peripheral-frequency', u32(timebase)),
