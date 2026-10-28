@@ -1,6 +1,6 @@
 --- a/bsd/vm/vm_unix.c
 +++ b/bsd/vm/vm_unix.c
-@@ -2894,6 +2894,9 @@ shared_region_map_and_slide_2_np(
+@@ -2894,3 +2894,6 @@ shared_region_map_and_slide_2_np(
  	mappings_count = uap->mappings_count;
  
 +#if defined(ARM64_BOARD_CONFIG_SWEET)
