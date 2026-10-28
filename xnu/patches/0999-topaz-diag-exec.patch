@@ -1,6 +1,6 @@
 --- a/bsd/kern/kern_exec.c
 +++ b/bsd/kern/kern_exec.c
-@@ -4998,6 +4998,9 @@ __mac_execve(proc_t p, struct __mac_execve_args *uap, int32_t *retval __unused)
+@@ -4998,3 +4998,6 @@ __mac_execve(proc_t p, struct __mac_execve_args *uap, int32_t *retval __unused)
  	/* Initialize the common data in the image_params structure */
  	imgp->ip_user_fname = uap->fname;
 +#if defined(ARM64_BOARD_CONFIG_SWEET)
