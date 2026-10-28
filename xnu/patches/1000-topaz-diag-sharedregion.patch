@@ -1,0 +1,20 @@
+--- a/bsd/vm/vm_unix.c
++++ b/bsd/vm/vm_unix.c
+@@ -2095,6 +2095,9 @@ shared_region_check_np(
+ 	task_t                  task = current_task();
+ 
++#if defined(ARM64_BOARD_CONFIG_SWEET)
++	printf("shared_region_check_np: pid=%d comm=%s start=0x%llx\n", proc_getpid(p), p->p_comm, (uint64_t)uap->start_address);
++#endif
+ 	SHARED_REGION_TRACE_DEBUG(
+ 		("shared_region: %p [%d(%s)] -> check_np(0x%llx)\n",
+ 		(void *)VM_KERNEL_ADDRPERM(current_thread()),
+@@ -2708,6 +2711,9 @@ _shared_region_map_and_slide(
+ 	struct vm_shared_region         *shared_region = NULL;
+ 
++#if defined(ARM64_BOARD_CONFIG_SWEET)
++	printf("shared_region_map_and_slide: pid=%d comm=%s files=%u\n", proc_getpid(p), p->p_comm, files_count);
++#endif
+ 	/*
+ 	 * Get a reference to the current proc's root dir.
+ 	 * Need this to prevent racing with chroot.
