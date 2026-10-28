@@ -1,0 +1,9 @@
+--- a/bsd/kern/kern_exec.c
++++ b/bsd/kern/kern_exec.c
+@@ -4998,6 +4998,9 @@ __mac_execve(proc_t p, struct __mac_execve_args *uap, int32_t *retval __unused)
+ 	/* Initialize the common data in the image_params structure */
+ 	imgp->ip_user_fname = uap->fname;
++#if defined(ARM64_BOARD_CONFIG_SWEET)
++	printf("execdbg: pid=%d fname=%p\n", proc_selfpid(), (void *)uap->fname);
++#endif
+ 	imgp->ip_user_argv = uap->argp;
