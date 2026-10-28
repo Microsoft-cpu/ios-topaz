@@ -40,7 +40,7 @@ index 3861a97..14d0f8e 100644
  		    (IOMobileFramebufferUserClient *)fb->fClients->getObject(i);
  		client->notify(SWEET_FB_NOTIFY_VSYNC, values, 6);
  	}
-+	if (fb->fIntf1 != NULL && (count % 300) == 0) {
++	if (fb->fIntf1 != NULL && 0) {
 +		uint32_t frames = fb->fIntf1[(0x800 + 0x0ac) / 4];
 +		IOLog("SWEET INTF1: %u frames in 5 s (line %u, te_en %#x)\n",
 +		    frames - fb->fIntfFrames, fb->fIntf1[(0x800 + 0x0b0) / 4], fb->fIntf1[0x800 / 4]);
