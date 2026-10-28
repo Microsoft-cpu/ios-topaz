@@ -1,0 +1,9 @@
+--- a/bsd/vm/vm_unix.c
++++ b/bsd/vm/vm_unix.c
+@@ -2894,6 +2894,9 @@ shared_region_map_and_slide_2_np(
+ 	mappings_count = uap->mappings_count;
+ 
++#if defined(ARM64_BOARD_CONFIG_SWEET)
++	printf("shared_region_map_and_slide_2_np: pid=%d comm=%s files=%u mappings=%u\n", proc_getpid(p), p->p_comm, files_count, mappings_count);
++#endif
+ 	if (files_count == 0) {
