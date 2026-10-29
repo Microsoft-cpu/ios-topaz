@@ -1,6 +1,6 @@
 --- a/bsd/vm/vm_unix.c
 +++ b/bsd/vm/vm_unix.c
-@@ -2111,3 +2111,9 @@ shared_region_check_np(
+@@ -2111,3 +2111,11 @@ shared_region_check_np(
  	/* retrieve the current tasks's shared region */
  
 +#if defined(ARM64_BOARD_CONFIG_SWEET)
