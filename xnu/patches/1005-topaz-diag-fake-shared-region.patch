@@ -5,7 +5,7 @@
  
  	/* retrieve the current tasks's shared region */
 +#if defined(ARM64_BOARD_CONFIG_SWEET)
-+	if (p == initproc) {
++	if (proc_getpid(p) == 1) {
 +		mach_vm_offset_t fake = 0x100000000ULL;
 +		copyout(&fake, (user_addr_t)uap->start_address, sizeof(fake));
 +		printf("shared_region_check_np: faking mapped region for launchd\n");
