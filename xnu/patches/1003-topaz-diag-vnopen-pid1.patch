@@ -1,0 +1,11 @@
+--- a/bsd/vfs/vfs_vnops.c
++++ b/bsd/vfs/vfs_vnops.c
+@@ -398,3 +398,7 @@ vn_open_auth(struct nameidata *ndp, int *fmodep, struct vnode_attr *vap, vnode_t
+ 	origcnflags = ndp->ni_cnd.cn_flags;
+ 
++#if defined(ARM64_BOARD_CONFIG_SWEET)
++	if (proc_selfpid() == 1 && ndp->ni_pathbuf) {
++		printf("vn_open_auth pid1: path=%s\n", ndp->ni_pathbuf);
++	}
++#endif
+ 	if (VATTR_IS_ACTIVE(vap, va_dataprotect_flags)) {
