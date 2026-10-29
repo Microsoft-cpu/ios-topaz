@@ -1,6 +1,6 @@
 --- a/bsd/vfs/vfs_vnops.c
 +++ b/bsd/vfs/vfs_vnops.c
-@@ -398,3 +398,7 @@ vn_open_auth(struct nameidata *ndp, int *fmodep, struct vnode_attr *vap, vnode_t
+@@ -398,3 +398,8 @@ vn_open_auth(struct nameidata *ndp, int *fmodep, struct vnode_attr *vap, vnode_t
  	origcnflags = ndp->ni_cnd.cn_flags;
  
 +#if defined(ARM64_BOARD_CONFIG_SWEET)
