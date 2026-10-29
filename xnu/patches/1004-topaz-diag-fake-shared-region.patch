@@ -1,0 +1,15 @@
+--- a/bsd/vm/vm_unix.c
++++ b/bsd/vm/vm_unix.c
+@@ -2095,3 +2095,12 @@ shared_region_check_np(
+ 	task_t                  task = current_task();
+ 
++#if defined(ARM64_BOARD_CONFIG_SWEET)
++	/* Diagnostic: trick dyld into thinking the cache is already mapped. */
++	if (p == initproc) {
++		mach_vm_offset_t fake = 0x100000000ULL;
++		copyout(&fake, (user_addr_t)uap->start_address, sizeof(fake));
++		printf("shared_region_check_np: faking mapped region for launchd\n");
++		return 0;
++	}
++#endif
+ 	SHARED_REGION_TRACE_DEBUG(
