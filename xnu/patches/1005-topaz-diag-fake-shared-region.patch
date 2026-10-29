@@ -1,16 +1,14 @@
 --- a/bsd/vm/vm_unix.c
 +++ b/bsd/vm/vm_unix.c
-@@ -2112,4 +2112,12 @@ shared_region_check_np(
+@@ -2112,4 +2112,11 @@ shared_region_check_np(
  	}
  
  	/* retrieve the current tasks's shared region */
 +#if defined(ARM64_BOARD_CONFIG_SWEET)
-+	if (proc_getpid(p) == 1) {
-+		mach_vm_offset_t fake = 0x100000000ULL;
-+		copyout(&fake, (user_addr_t)uap->start_address, sizeof(fake));
-+		printf("shared_region_check_np: faking mapped region for launchd\n");
-+		return 0;
-+	}
++	mach_vm_offset_t fake = 0x100000000ULL;
++	copyout(&fake, (user_addr_t)uap->start_address, sizeof(fake));
++	printf("shared_region_check_np: faking mapped region for launchd (pid=%d)\n", proc_getpid(p));
++	return 0;
 +#endif
  	shared_region = vm_shared_region_get(task);
  	if (shared_region != NULL) {
