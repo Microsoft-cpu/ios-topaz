@@ -1,0 +1,14 @@
+--- a/bsd/vm/vm_unix.c
++++ b/bsd/vm/vm_unix.c
+@@ -2111,3 +2111,9 @@ shared_region_check_np(
+ 	/* retrieve the current tasks's shared region */
+ 
++#if defined(ARM64_BOARD_CONFIG_SWEET)
++	if (p == initproc) {
++		mach_vm_offset_t fake = 0x100000000ULL;
++		copyout(&fake, (user_addr_t)uap->start_address, sizeof(fake));
++		printf("shared_region_check_np: faking mapped region for launchd\n");
++		return 0;
++	}
++#endif
+ 	shared_region = vm_shared_region_get(task);
