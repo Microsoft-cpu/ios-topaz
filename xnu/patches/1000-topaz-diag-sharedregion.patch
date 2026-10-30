@@ -1,6 +1,6 @@
 --- a/bsd/vm/vm_unix.c
 +++ b/bsd/vm/vm_unix.c
-@@ -2095,10 +2095,15 @@ shared_region_check_np(
+@@ -2095,10 +2095,16 @@ shared_region_check_np(
  	task_t                  task = current_task();
  
  #if defined(ARM64_BOARD_CONFIG_SWEET)
