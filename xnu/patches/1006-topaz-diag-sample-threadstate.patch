@@ -1,0 +1,9 @@
+--- a/osfmk/kern/exception.c
++++ b/osfmk/kern/exception.c
+@@ -1015,6 +1015,7 @@ sweet_sample_task(const char *name, int pid, task_t task)
+ 	queue_iterate(&task->threads, thread, thread_t, task_threads) {
+ 		arm_saved_state_t *ss = find_user_regs(thread);
++		printf("SMP %s[%d] tn=%d state=%u ss=%p\n", name, pid, tn, thread->state, (void *)ss);
+ 		char line[400];
+ 		int n;
+ 		uint64_t fp;
