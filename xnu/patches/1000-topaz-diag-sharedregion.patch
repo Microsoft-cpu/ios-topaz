@@ -3,7 +3,6 @@
 @@ -2112,2 +2112,10 @@ shared_region_check_np(
  	/* retrieve the current tasks's shared region */
 +#if defined(ARM64_BOARD_CONFIG_SWEET)
-+	printf("shared_region_check_np: pid=%d comm=%s\n", proc_getpid(p), p->p_comm);
 +	if (proc_getpid(p) == 1) {
 +		mach_vm_offset_t fake = 0x100000000ULL;
 +		copyout(&fake, (user_addr_t)uap->start_address, sizeof(fake));
