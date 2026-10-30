@@ -17,4 +17,3 @@
  		(void *)VM_KERNEL_ADDRPERM(current_thread()),
  		proc_getpid(p), p->p_comm,
  		(uint64_t)uap->start_address));
-
