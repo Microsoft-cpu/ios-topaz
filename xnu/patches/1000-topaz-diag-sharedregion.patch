@@ -15,3 +15,5 @@
  	SHARED_REGION_TRACE_DEBUG(
  		("shared_region: %p [%d(%s)] -> check_np(0x%llx)\n",
  		(void *)VM_KERNEL_ADDRPERM(current_thread()),
+ 		proc_getpid(p), p->p_comm,
+ 		(uint64_t)uap->start_address));
