@@ -1,9 +1,10 @@
 --- a/bsd/vm/vm_unix.c
 +++ b/bsd/vm/vm_unix.c
-@@ -2112,2 +2112,9 @@ shared_region_check_np(
+@@ -2112,3 +2112,11 @@ shared_region_check_np(
  	/* retrieve the current tasks's shared region */
 +#if defined(ARM64_BOARD_CONFIG_SWEET)
 +	printf("shared_region_check_np: pid=%d entering fake (no copyout)\n", proc_getpid(p));
 +	return 0;
 +#endif
  	shared_region = vm_shared_region_get(task);
+ 	if (shared_region != NULL) {
