@@ -1,0 +1,14 @@
+--- a/iokit/Kernel/arm/hid/SweetHID.cpp
++++ b/iokit/Kernel/arm/hid/SweetHID.cpp
+@@ -21015,6 +21015,12 @@ bool
+ SweetHIDTouch::start(IOService *provider)
+ {
++	int enabled = 1;
++	PE_parse_boot_argn("sweettouch", &enabled, sizeof(enabled));
++	if (!enabled) {
++		IOLog("SWEET HID: touch disabled (sweettouch=0)\n");
++		return false;
++	}
+ 	fLock = IOLockAlloc();
+ 	if (!fLock || !IOHIDEventService::start(provider)) {
+ 		return false;
