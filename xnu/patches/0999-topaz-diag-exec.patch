@@ -4,6 +4,6 @@
  	/* Initialize the common data in the image_params structure */
  	imgp->ip_user_fname = uap->fname;
 +#if defined(ARM64_BOARD_CONFIG_SWEET)
-+	printf("execdbg: pid=%d fname=%p\n", proc_selfpid(), (void *)uap->fname);
++	printf("execdbg: pid=%d fname=%p TAG=G34FRESH1\n", proc_selfpid(), (void *)uap->fname);
 +#endif
  	imgp->ip_user_argv = uap->argp;
