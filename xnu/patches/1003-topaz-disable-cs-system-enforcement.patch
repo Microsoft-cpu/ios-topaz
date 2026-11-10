@@ -1,0 +1,11 @@
+--- a/bsd/kern/kern_cs.c
++++ b/bsd/kern/kern_cs.c
+@@ -470,3 +470,7 @@ int
+ cs_system_enforcement(void)
+ {
++#if defined(ARM64_BOARD_CONFIG_SWEET)
++	/* SWEET: no trust cache / code signing infrastructure; allow unsigned shared cache. */
++	return 0;
++#endif
+ 	return cs_system_enforcement_enable ? 1 : 0;
+}
