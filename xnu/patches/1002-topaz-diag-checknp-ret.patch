@@ -1,10 +1,6 @@
 --- a/bsd/vm/vm_unix.c
 +++ b/bsd/vm/vm_unix.c
-@@ -2900,3 +2900,8 @@ shared_region_check_np(
- 	SHARED_REGION_TRACE_DEBUG(
- 		("shared_region: %p [%d(%s)] check_np(0x%llx) <- 0x%llx %d\n",
- 		(void *)VM_KERNEL_ADDRPERM(current_thread()),
- 		proc_getpid(p), p->p_comm,
+@@ -2905,4 +2905,7 @@ shared_region_check_np(
  		(uint64_t)uap->start_address, (uint64_t)start_address, error));
 
 +#if defined(ARM64_BOARD_CONFIG_SWEET)

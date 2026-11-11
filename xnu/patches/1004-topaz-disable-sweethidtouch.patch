@@ -1,6 +1,6 @@
 --- a/iokit/Kernel/arm/hid/SweetHID.cpp
 +++ b/iokit/Kernel/arm/hid/SweetHID.cpp
-@@ -21015,6 +21015,12 @@ bool
+@@ -21015,5 +21015,11 @@ bool
  SweetHIDTouch::start(IOService *provider)
  {
 +	int enabled = 1;
