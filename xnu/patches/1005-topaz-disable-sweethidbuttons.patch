@@ -1,0 +1,13 @@
+--- a/iokit/Kernel/arm/hid/SweetHID.cpp
++++ b/iokit/Kernel/arm/hid/SweetHID.cpp
+@@ -20968,6 +20968,13 @@ SweetHIDButtons::start(IOService *provider)
+ {
++	int enabled = 1;
++	PE_parse_boot_argn("sweetkeys", &enabled, sizeof(enabled));
++	if (!enabled) {
++		IOLog("SWEET HID: buttons disabled (sweetkeys=0)\n");
++		return false;
++	}
+ 	if (!IOHIDEventService::start(provider)) {
+ 		return false;
+ 	}
